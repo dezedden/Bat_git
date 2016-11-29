@@ -63,14 +63,14 @@ int placer_bateau()
     { printf("tape 1 pour alignement vertical ou 0 pour horizontal\n");
       while(scanf("%d",&a)!=1) fflush(stdin);
 	}while(a<0 || a>1);
-	if(l<6 && l<=9-i+1 && l<=9-j+1)
+	if(l<6 || l<=9-i+1 || l<=9-j+1)
 	{
 
     if(a==1)
     { bon=1;
       for (h=0;h<l;h++) // Ici on parcourt d'abord la colonne pour savoir s'il n'y a pas d'autres valeurs"0"
       {
-        if(Tab[i+h][j]=='0') bon=0;
+        if(Tab[i+h][j]=='0' || (i+h)>=10) bon=0;
       }
       if(bon)
       {
@@ -83,7 +83,7 @@ int placer_bateau()
     { bon=1;
       for (h=0;h<l;h++)
       {
-        if(Tab[i][j+h]=='0') bon=0;
+        if(Tab[i][j+h]=='0' || (j+h)>=10) bon=0;
       }
       if(bon)
       {
@@ -131,62 +131,9 @@ void affiche_tab()
 	}
 
 }
-
-int bateau_ordi()
-{
-  int j;//colonne
-  int l=0;//longueur bateau
-  int k;
-  int i;//ligne
-  int a;//alignement vertical ou horizontal
-  int u,h,n;
-  int bon;
-  char c;
-  while(l<=3)
-  if(l<6 && l<=9-i+1 && l<=9-j+1)
-  {
-    if(a==1)
-    {
-        bon=1;
-        for (h=0;h<l;h++) // Ici on parcourt d'abord la colonne pour savoir s'il n'y a pas d'autres valeurs"0"
-        {
-            if(Tab[i+h][j]=='0') bon=0;
-        }
-        if(bon)
-        {
-            for (k=0;k<l;k++) Tab[i+k][j]='0';
-            l+=1;
-        }
-
-     }
-     if(a==0)
-     {
-        bon=1;
-        for (h=0;h<l;h++)
-        {
-            if(Tab[i][j+h]=='0') bon=0;
-        }
-        if(bon)
-        {
-            for (k=0;k<l;k++) Tab[i][j+k]='0';
-            l+=1;
-        }
-        else u--;
-     }
-    }
-    affiche_tab();//placer tous les baateaux d'un coup
-}
-
-
-
-
-
-
 int main ()
 {
-    srand(time(NULL));
-    //intialiser_tableau();
-    //placer_bateau();
-    bateau_ordi();
-
+    //srand(time(NULL));
+    intialiser_tableau();
+    placer_bateau();
 }
