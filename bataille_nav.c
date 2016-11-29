@@ -6,7 +6,30 @@ int placer_bateau();
 char intialiser_tableau();
 int Tab[10][10];
 char tirer();
-//ok pour la fonction tirer
+char tirer_ordi();
+int placer_bateau_ordi();
+
+char tirer_ordi()
+{
+    int i,j,n,bon;
+    char c;
+  	i=rand()%10;
+  	j=rand()%10;
+	bon=0;
+	if(Tab[i][j]=='0')
+	{
+         Tab[i][j]='T';
+         affiche_tab();
+         bon=1;
+	}
+	if(bon)
+	{
+
+        tirer_ordi();
+	}
+	else printf("RATE, C'est au tour de l'ordianteur");
+
+}
 char tirer()
 {
     int i,j,n,bon;
@@ -36,6 +59,57 @@ char tirer()
 	else printf("RATE, C'est au tour de l'ordianteur");
 
 }
+
+int placer_bateau_ordi()
+{
+  int j;//colonne
+  int l=1;//longueur bateau
+  int k;
+  int i;//ligne
+  int a;//alignement vertical ou horizontal
+  int u,h,n;
+  int bon;
+  char c;
+  while (l<=3)//placer tous les baateaux d'un coup
+  {
+    i=rand()%10;
+	j=rand()%10;
+	a=rand()%2;
+	if(l<6 || l<=9-i+1 || l<=9-j+1)
+	{
+
+    if(a==1)
+    { bon=1;
+      for (h=0;h<l;h++) // Ici on parcourt d'abord la colonne pour savoir s'il n'y a pas d'autres valeurs"0"
+      {
+        if(Tab[i+h][j]=='0' || (i+h)>=10) bon=0;
+      }
+      if(bon)
+      {
+        for (k=0;k<l;k++) Tab[i+k][j]='0';
+        l+=1;
+      }
+
+    }
+    if(a==0)
+    { bon=1;
+      for (h=0;h<l;h++)
+      {
+        if(Tab[i][j+h]=='0' || (j+h)>=10) bon=0;
+      }
+      if(bon)
+      {
+        for (k=0;k<l;k++) Tab[i][j+k]='0';
+        l+=1;
+      }
+      else u--;
+    }
+    else u--;
+    }
+   }
+   //affiche_tab();
+}
+
 int placer_bateau()
 {
   int j;//colonne
@@ -94,15 +168,13 @@ int placer_bateau()
     }
     else u--;
     }
-
-
     affiche_tab();
    }
-   printf("VEUILLEZ TIRER !");
-   tirer();
-
-
+   printf("L ORDINATEUR VIENT DE PLACER SES BATEAUX   LA PARTIE PEUT COMMENCER :) \n\n");
+   //tirer();
 }
+
+
  char intialiser_tableau()
  {
  	int i;
@@ -133,7 +205,9 @@ void affiche_tab()
 }
 int main ()
 {
-    //srand(time(NULL));
+    srand(time(NULL));
     intialiser_tableau();
     placer_bateau();
+    placer_bateau_ordi();
+
 }
