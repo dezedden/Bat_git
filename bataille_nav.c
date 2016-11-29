@@ -18,7 +18,7 @@ char tirer_ordi()
 	bon=0;
 	if(Tab[i][j]=='0')
 	{
-         Tab[i][j]='T';
+         Tab[i][j]='x';
          affiche_tab();
          bon=1;
 	}
@@ -27,7 +27,12 @@ char tirer_ordi()
 
         tirer_ordi();
 	}
-	else printf("RATE, C'est au tour de l'ordianteur");
+	else
+	{
+        Tab[i][j]='W';
+        printf("L ORDINATEUR VIENT DE RATE. A VOTRE TOUR\n\n !");
+        tirer();
+	}
 
 }
 char tirer()
@@ -56,7 +61,14 @@ char tirer()
 
         tirer();
 	}
-	else printf("RATE, C'est au tour de l'ordianteur");
+	else
+	{
+        Tab[i][j]='R';
+        affiche_tab();
+        printf("RATE, C'est au tour de l'ordianteur\n\n ");
+        tirer_ordi();
+
+	}
 
 }
 
@@ -70,7 +82,7 @@ int placer_bateau_ordi()
   int u,h,n;
   int bon;
   char c;
-  while (l<=3)//placer tous les baateaux d'un coup
+  while (l<=2)//placer tous les baateaux d'un coup
   {
     i=rand()%10;
 	j=rand()%10;
@@ -107,7 +119,7 @@ int placer_bateau_ordi()
     else u--;
     }
    }
-   //affiche_tab();
+   tirer();
 }
 
 int placer_bateau()
@@ -120,7 +132,7 @@ int placer_bateau()
   int u,h,n;
   int bon;
   char c;
-  while (l<=3)//placer tous les baateaux d'un coup
+  while (l<=2)//placer tous les baateaux d'un coup
   {
     do
     { printf("Entre la ligne (de A a J): ");
@@ -170,8 +182,7 @@ int placer_bateau()
     }
     affiche_tab();
    }
-   printf("L ORDINATEUR VIENT DE PLACER SES BATEAUX   LA PARTIE PEUT COMMENCER :) \n\n");
-   //tirer();
+   printf("L ORDINATEUR VIENT DE PLACER SES BATEAUX   LA PARTIE PEUT COMMENCER :) \n\nVEUILLEZ TIRER SVP\n\n");
 }
 
 
