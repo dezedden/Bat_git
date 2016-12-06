@@ -11,6 +11,8 @@ void affiche_tab_ordi();
 char tirer();
 char tirer_ordi();
 int placer_bateau_ordi();
+int OnPeutTirer();
+int OnPeutTirer_Ordi();
 
 char tirer_ordi()
 {
@@ -28,11 +30,13 @@ char tirer_ordi()
 	if(bon)
 	{
 
-        tirer_ordi();
+        if (OnPeutTirer_Ordi()) tirer_ordi();
+        else printf("VOUS AVEZ PERDU DESOLE!!!");
 	}
 	else
 	{
         Tab[i][j]='W';
+        affiche_tab();
         printf("L ORDINATEUR VIENT DE RATE. A VOTRE TOUR\n\n !");
         tirer();
 	}
@@ -40,7 +44,7 @@ char tirer_ordi()
 }
 char tirer()
 {
-    int i,j,n,bon;
+    int i,j,n,bon,x,y;
     char c;
   	do
     { printf("Entre la ligne (de A a J): ");
@@ -62,19 +66,17 @@ char tirer()
 	}
 	if(bon)
 	{
-
-        tirer();
+        if (OnPeutTirer()) tirer();
+        else printf("BRAVO VOUS AVEZ GAGNEZ!!!");
 	}
 	else
 	{
         Tab_ordi[i][j]='R';
         Tab[i][j]='R';
         affiche_tab();
-        printf("RATE, C'est au tour de l'ordianteur\n\n ");
+        printf("Vous avez raté! au tour de l'ordi \n\n\n");
         tirer_ordi();
-
-	}
-
+    }
 }
 
 int placer_bateau_ordi()
@@ -190,6 +192,37 @@ int placer_bateau()
    printf("L ORDINATEUR VIENT DE PLACER SES BATEAUX   LA PARTIE PEUT COMMENCER :) \n\nVEUILLEZ TIRER SVP\n\n");
    tirer();
 }
+int OnPeutTirer()
+{
+    int i,j,c;
+    c=0;
+    for(i=0;i<10;i++)
+    {
+        for(j=0;j<10;j++)
+        {
+            if (Tab[i][j]=='T') c++;
+        }
+    }
+    if(c==3) return 0;
+    else return 1;
+
+}
+int OnPeutTirer_Ordi()
+{
+    int i,j,c;
+    c=0;
+    for(i=0;i<10;i++)
+    {
+        for(j=0;j<10;j++)
+        {
+            if (Tab[i][j]=='x') c++;
+        }
+    }
+    if(c==3) return 0;
+    else return 1;
+
+}
+
 
 
  char intialiser_tableau()
@@ -254,8 +287,9 @@ int main ()
     intialiser_tableau();
     initialiser_tableau_ordi();
     //affiche_tab();
-    placer_bateau();
+
     placer_bateau_ordi();
-    //affiche_tab_ordi();
+    affiche_tab_ordi();
+    placer_bateau();
 
 }
