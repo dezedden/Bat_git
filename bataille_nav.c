@@ -13,6 +13,7 @@ char tirer_ordi();
 int placer_bateau_ordi();
 int OnPeutTirer();
 int OnPeutTirer_Ordi();
+void ordi_ma_touche();
 
 char tirer_ordi()
 {
@@ -21,16 +22,20 @@ char tirer_ordi()
   	i=rand()%10;
   	j=rand()%10;
 	bon=0;
-	if(Tab[i][j]=='0')
+	if(Tab[i][j]=='0' || Tab[i][j]=='R')
 	{
          Tab[i][j]='x';
+         ordi_ma_touche();
          affiche_tab();
          bon=1;
 	}
 	if(bon)
 	{
-
-        if (OnPeutTirer_Ordi()) tirer_ordi();
+        if (OnPeutTirer_Ordi())
+        {
+            printf("L ORDI GARDE LA MAIN IL RETIRE \n\n\n");
+            tirer_ordi();
+        }
         else printf("VOUS AVEZ PERDU DESOLE!!!");
 	}
 	else
@@ -77,6 +82,18 @@ char tirer()
         printf("Vous avez raté! au tour de l'ordi \n\n\n");
         tirer_ordi();
     }
+}
+void ordi_ma_touche(){
+    int x,y,c;
+    c=0;
+    for (x=0;x<10;x++)
+    {
+        for(y=0;y<10;y++)
+        {
+            if (Tab[x][y]=='x') c++;
+        }
+    }
+    printf("L ORDI VIENT DE VOUS TOUCHER UNE %d IEME FOIS\n\n\n", c);
 }
 
 int placer_bateau_ordi()
@@ -139,7 +156,7 @@ int placer_bateau()
   int u,h,n;
   int bon;
   char c;
-  while (l<=2)//placer tous les baateaux d'un coup
+  while (l<=5)//placer tous les baateaux d'un coup
   {
     do
     { printf("Entre la ligne (de A a J): ");
