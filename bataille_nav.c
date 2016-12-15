@@ -14,6 +14,10 @@ int placer_bateau_ordi();
 int OnPeutTirer();
 int OnPeutTirer_Ordi();
 void ordi_ma_touche();
+char initialiser_tableau_ordi_a_afficher();
+void affiche_tab_ordi_a_afficher();
+int Tab_ordi_a_afficher[10][10];
+
 
 char tirer_ordi()
 {
@@ -65,8 +69,10 @@ char tirer()
 	if(Tab_ordi[i][j]=='0')
 	{
          Tab_ordi[i][j]='T';
-         Tab[i][j]='T';
-         affiche_tab();
+         //Tab[i][j]='T';
+         //affiche_tab();
+         Tab_ordi_a_afficher[i][j]='T';
+         affiche_tab_ordi_a_afficher();
          bon=1;
 	}
 	if(bon)
@@ -77,9 +83,13 @@ char tirer()
 	else
 	{
         Tab_ordi[i][j]='R';
-        Tab[i][j]='R';
-        affiche_tab();
-        printf("Vous avez raté! au tour de l'ordi \n\n\n");
+        Tab_ordi_a_afficher[i][j]='R';
+
+        //Tab[i][j]='R';
+        printf("-----------------------------------------------------------------\n\n ETAT BATEAUX ORDI:\n\n ");
+        //affiche_tab();
+        affiche_tab_ordi_a_afficher();
+        printf("VOUS AVEZ RATE\n---AU TOUR DE L ORDI \n\n\n");
         tirer_ordi();
     }
 }
@@ -156,7 +166,7 @@ int placer_bateau()
   int u,h,n;
   int bon;
   char c;
-  while (l<=5)//placer tous les baateaux d'un coup
+  while (l<=2)//placer tous les baateaux d'un coup
   {
     do
     { printf("Entre la ligne (de A a J): ");
@@ -268,6 +278,19 @@ int OnPeutTirer_Ordi()
     		}
  		}
  }
+ char initialiser_tableau_ordi_a_afficher()
+ {
+ 	int i;
+ 	int j;
+
+    	for(i=0;i<10;i++)
+    	{
+    		for(j=0;j<10;j++)
+    		{
+    			Tab_ordi_a_afficher[i][j]='1';
+    		}
+ 		}
+ }
 
 void affiche_tab_ordi()
 {
@@ -292,6 +315,20 @@ void affiche_tab()
 		for(printf("%c",'A'+i),j=0;j<10;j++){
 
 			printf( "  %c   ",Tab[i][j]);
+
+		}
+		printf("\n");
+	}
+
+}
+void affiche_tab_ordi_a_afficher()
+{
+	int i,j;
+	printf("   1     2     3     4     5     6     7     8     9    10\n");
+	for(i=0;i<10;i++){
+		for(printf("%c",'A'+i),j=0;j<10;j++){
+
+			printf( "  %c   ",Tab_ordi_a_afficher[i][j]);
 
 		}
 		printf("\n");
