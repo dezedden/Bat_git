@@ -6,23 +6,28 @@ int placer_bateau();
 char intialiser_tableau();
 int Tab[10][10];
 int Tab_ordi[10][10];
+int Tab_ordi_a_afficher[10][10];
 char intialiser_tableau_ordi();
 void affiche_tab_ordi();
 char tirer();
 char tirer_ordi();
 int placer_bateau_ordi();
-int OnPeutTirer();
+int OnPeutTirer(); //le compteur du nombre de bateau restant
 int OnPeutTirer_Ordi();
-void ordi_ma_touche();
+void ordi_ma_touche(); //dit combien de fois l ordi m'a touché
 char initialiser_tableau_ordi_a_afficher();
 void affiche_tab_ordi_a_afficher();
-int Tab_ordi_a_afficher[10][10];
+char tirer_ordi_haut(int i,int j);
+char tirer_ordi_droite(int i,int j);
+
 
 
 char tirer_ordi()
 {
     int i,j,n,bon;
     char c;
+    int z;
+    z=rand()%2;//ou on tire? haut ou bas?
   	i=rand()%10;
   	j=rand()%10;
 	bon=0;
@@ -35,10 +40,13 @@ char tirer_ordi()
 	}
 	if(bon)
 	{
-        if (OnPeutTirer_Ordi())
+        if (OnPeutTirer_Ordi()) //compte le nombre de T
         {
             printf("L ORDI GARDE LA MAIN IL RETIRE \n\n\n");
-            tirer_ordi();
+            tirer_ordi_haut(i,j);
+            affiche_tab_ordi();
+            tirer_ordi_droite(i,j);
+            affiche_tab_ordi_a_afficher();
         }
         else printf("VOUS AVEZ PERDU DESOLE!!!");
 	}
@@ -51,6 +59,50 @@ char tirer_ordi()
 	}
 
 }
+char tirer_ordi_haut(int i,int j){
+    int c;
+    c=i;
+    if(c-1<0) tirer_ordi_droite(0,j);
+    while(Tab[c-1][j]=='0')
+        {
+            Tab[c-1][j]='x';
+            ordi_ma_touche();
+            affiche_tab();
+            c--;
+            tirer_ordi_haut(c,j);
+        }
+	//else tirer_ordi_droite(i,j);
+	/*if(Tab[i-1][j]!='0')
+	{
+        Tab[i][j]='W';
+        affiche_tab();
+        printf("L ORDINATEUR VIENT DE RATE. A VOTRE TOUR\n\n !");
+        tirer();
+	}*/
+}
+char tirer_ordi_droite(int i,int j){
+    int k;
+    k=j;
+    if((k+1)>9) tirer_ordi_haut(i,9);
+    while(Tab[i][k+1]=='0')
+        {
+            Tab[i][k]='x';
+            ordi_ma_touche();
+            affiche_tab();
+            k++;
+            tirer_ordi_droite(i,k);
+        }
+    }
+    //if((j+1)==11) tirer_ordi_haut(i,j);
+    /*if(Tab[i][j+1]!='0')
+    {
+        Tab[i][j+1]='W';
+        affiche_tab();
+        printf("L ORDINATEUR VIENT DE RATE. A VOTRE TOUR\n\n !");
+        tirer();
+    }*/
+//}
+
 char tirer()
 {
     int i,j,n,bon,x,y;
@@ -166,7 +218,7 @@ int placer_bateau()
   int u,h,n;
   int bon;
   char c;
-  while (l<=2)//placer tous les baateaux d'un coup
+  while (l<=5)//placer tous les baateaux d'un coup
   {
     do
     { printf("Entre la ligne (de A a J): ");
@@ -245,7 +297,7 @@ int OnPeutTirer_Ordi()
             if (Tab[i][j]=='x') c++;
         }
     }
-    if(c==3) return 0;
+    if(c==10) return 0;
     else return 1;
 
 }
@@ -324,7 +376,7 @@ void affiche_tab()
 void affiche_tab_ordi_a_afficher()
 {
 	int i,j;
-	printf("   1     2     3     4     5     6     7     8     9    10\n");
+	printf("  1     2     3     4     5     6     7     8     9    10\n");
 	for(i=0;i<10;i++){
 		for(printf("%c",'A'+i),j=0;j<10;j++){
 
@@ -340,6 +392,7 @@ int main ()
     srand(time(NULL));
     intialiser_tableau();
     initialiser_tableau_ordi();
+    initialiser_tableau_ordi_a_afficher();
     //affiche_tab();
 
     placer_bateau_ordi();
