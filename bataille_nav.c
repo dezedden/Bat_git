@@ -19,6 +19,7 @@ char initialiser_tableau_ordi_a_afficher();
 void affiche_tab_ordi_a_afficher();
 char tirer_ordi_haut(int i,int j);
 char tirer_ordi_droite(int i,int j);
+char tirer_ordi_bas(int i,int j);
 
 
 
@@ -44,9 +45,11 @@ char tirer_ordi()
         {
             printf("L ORDI GARDE LA MAIN IL RETIRE \n\n\n");
             tirer_ordi_haut(i,j);
-            affiche_tab_ordi();
+            affiche_tab_ordi_a_afficher();
             tirer_ordi_droite(i,j);
             affiche_tab_ordi_a_afficher();
+            tirer_ordi_bas(i,j);
+            //affiche_tab_ordi_a_afficher();
         }
         else printf("VOUS AVEZ PERDU DESOLE!!!");
 	}
@@ -93,16 +96,20 @@ char tirer_ordi_droite(int i,int j){
             tirer_ordi_droite(i,k);
         }
     }
-    //if((j+1)==11) tirer_ordi_haut(i,j);
-    /*if(Tab[i][j+1]!='0')
-    {
-        Tab[i][j+1]='W';
-        affiche_tab();
-        printf("L ORDINATEUR VIENT DE RATE. A VOTRE TOUR\n\n !");
-        tirer();
-    }*/
-//}
+char tirer_ordi_bas(int i,int j){
+    int c;
+    c=i;
+    if(c+1>9) tirer_ordi_droite(9,j);
+    while(Tab[c+1][j]=='0')
+        {
+            Tab[c+1][j]='x';
+            ordi_ma_touche();
+            affiche_tab();
+            c++;
+            tirer_ordi_bas(c,j);
+        }
 
+}
 char tirer()
 {
     int i,j,n,bon,x,y;
